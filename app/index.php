@@ -38,7 +38,7 @@
 
 				<div class="pt-3">
 					<form method="POST" id="Messagebox">
-						<textarea name="message" id="message" class="form-control" placeholder="Please Type a message to send"></textarea>
+						<textarea id="message" class="form-control" placeholder="Please Type a message to send"></textarea>
 					</form>
 				</div>
 			</div>
