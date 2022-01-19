@@ -13,12 +13,11 @@ $users = new Users($db);
 $utils = new Utils();
 
 switch ($_REQUEST['action']) {
-
 	case "sendMessage":
 		$user_id = $users->getUserByUsername($_SESSION['username'])->id;
 
 		if ($message->sendMessage($user_id, $utils->sanitize($_REQUEST['message']))) {
-			echo json_encode(["response" => 1]);
+			echo json_encode(["response" => true]);
 		}
 		break;
 
@@ -28,7 +27,6 @@ switch ($_REQUEST['action']) {
 		$chat = [];
 
 		foreach ($rs as $message) {
-
 			$username = $users->getUser($message->user)->username;
 
 			array_push($chat, [

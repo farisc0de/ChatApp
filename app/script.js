@@ -71,7 +71,7 @@ $("form").submit(function () {
     "api/handler.php",
     { action: "sendMessage", message: message },
     function (response) {
-      if (JSON.parse(response)["response"] == 1) {
+      if (JSON.parse(response)["response"] == true) {
         LoadMessages();
         document.getElementById("Messagebox").reset();
       }
