@@ -13,15 +13,15 @@
 
 <body>
 
-	<nav class="navbar navbar-light bg-light">
+	<nav class="navbar navbar-light bg-light navbar-expand-lg">
 		<a class="navbar-brand" href="#">Chat App</a>
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<div class="collapse navbar-collapse ml-auto" id="navbarNav">
-			<ul class="navbar-nav">
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
 					<a class="nav-link" href="logout.php">Logout</a>
 				</li>
@@ -37,7 +37,7 @@
 				<div id="chat"></div>
 
 				<div class="pt-3">
-					<form method="POST" id="messageFrm">
+					<form method="POST" id="Messagebox">
 						<textarea name="message" id="message" class="form-control" placeholder="Please Type a message to send"></textarea>
 					</form>
 				</div>

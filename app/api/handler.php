@@ -5,26 +5,24 @@ include_once '../config.php';
 include_once '../src/Database.php';
 include_once '../src/Messages.php';
 include_once '../src/Users.php';
+include_once '../src/Utils.php';
 
 $db = new Database($config);
 $message = new Messages($db);
 $users = new Users($db);
+$utils = new Utils();
 
 switch ($_REQUEST['action']) {
 
 	case "sendMessage":
-
 		$user_id = $users->getUserByUsername($_SESSION['username'])->id;
 
-		if ($message->sendMessage($user_id, $_REQUEST['message'])) {
+		if ($message->sendMessage($user_id, $utils->sanitize($_REQUEST['message']))) {
 			echo json_encode(["response" => 1]);
-			exit;
 		}
-
 		break;
 
 	case "getMessages":
-
 		$rs = $message->getMessages();
 
 		$chat = [];

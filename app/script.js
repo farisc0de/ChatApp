@@ -1,15 +1,12 @@
-$("#message").emoji({ place: "after" });
+$("#message").emoji({
+  place: "after",
+});
 
-LoadChat();
-loadUsers();
+LoadMessages();
+LoadUsers();
 
-setInterval(function () {
-  LoadChat();
-  loadUsers();
-}, 1000);
-
-function LoadChat() {
-  $.post("api/handler.php?action=getMessages", function (response) {
+function LoadMessages() {
+  $.post("api/handler.php", { action: "getMessages" }, function (response) {
     var scrollpos = $("#chat").scrollTop();
     var scrollpos = parseInt(scrollpos) + 520;
     var scrollHeight = $("#chat").prop("scrollHeight");
@@ -20,7 +17,9 @@ function LoadChat() {
 
     chat.forEach((message) => {
       messages += `<div class="single-message ${message["align"]}">
-						<strong>${message["username"]}: </strong><br /> <p>${message["message"]}</p>
+						<strong>${message["username"]}: </strong>
+            <br />
+            <p>${message["message"]}</p>
 						<br />
 						<span>${message["time"]}</span>
 						</div>
@@ -36,8 +35,8 @@ function LoadChat() {
   });
 }
 
-function loadUsers() {
-  $.post("api/handler.php?action=getOnlineUsers", function (response) {
+function LoadUsers() {
+  $.post("api/handler.php", { action: "getOnlineUsers" }, function (response) {
     var scrollpos = $("#online").scrollTop();
     var scrollpos = parseInt(scrollpos) + 520;
     var scrollHeight = $("#online").prop("scrollHeight");
@@ -69,14 +68,20 @@ $("form").submit(function () {
   var message = $("#message").val();
 
   $.post(
-    "api/handler.php?action=sendMessage&message=" + message,
+    "api/handler.php",
+    { action: "sendMessage", message: message },
     function (response) {
       if (JSON.parse(response)["response"] == 1) {
-        LoadChat();
-        document.getElementById("messageFrm").reset();
+        LoadMessages();
+        document.getElementById("Messagebox").reset();
       }
     }
   );
 
   return false;
 });
+
+setInterval(function () {
+  LoadMessages();
+  LoadUsers();
+}, 1000);
