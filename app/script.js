@@ -6,14 +6,13 @@ LoadMessages();
 LoadUsers();
 
 function LoadMessages() {
-  $.post("api/handler.php", { action: "getMessages" }, function (response) {
-    var scrollpos = $("#chat").scrollTop();
-    var scrollpos = parseInt(scrollpos) + 520;
+  $.get("api/handler.php", { action: "getMessages" }, function (response) {
+    var scrollpos = parseInt($("#chat").scrollTop()) + 520;
     var scrollHeight = $("#chat").prop("scrollHeight");
 
     chat = JSON.parse(response);
 
-    messages = ``;
+    messages = "";
 
     chat.forEach((message) => {
       messages += `<div class="single-message ${message["align"]}">
@@ -36,25 +35,16 @@ function LoadMessages() {
 }
 
 function LoadUsers() {
-  $.post("api/handler.php", { action: "getOnlineUsers" }, function (response) {
-    var scrollpos = $("#online").scrollTop();
-    var scrollpos = parseInt(scrollpos) + 520;
-    var scrollHeight = $("#online").prop("scrollHeight");
-
+  $.get("api/handler.php", { action: "getOnlineUsers" }, function (response) {
     users = JSON.parse(response);
 
-    online_users = ``;
+    online_users = "";
 
     users.forEach((online) => {
       online_users += `<ul class="list-unstyled"><li>${online["username"]}</li></ul>`;
     });
 
     $("#online").html(online_users);
-
-    if (scrollpos < scrollHeight) {
-    } else {
-      $("#online").scrollTop($("#online").prop("scrollHeight"));
-    }
   });
 }
 
