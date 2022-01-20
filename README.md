@@ -8,6 +8,7 @@ Simple PHP Chat System
 2. Emojies
 3. Clean Interface
 4. Responsive
+5. Rooms
 
 ## Screenshot
 
