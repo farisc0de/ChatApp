@@ -52,3 +52,10 @@ textarea {
 .clear {
   clear: both;
 }
+
+@media screen and (max-width: 600px) {
+  .hide_online {
+    visibility: hidden;
+    display: none;
+  }
+}

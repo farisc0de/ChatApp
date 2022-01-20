@@ -6,23 +6,29 @@ include_once '../src/Database.php';
 include_once '../src/Messages.php';
 include_once '../src/Users.php';
 include_once '../src/Utils.php';
+include_once '../src/Rooms.php';
 
 $db = new Database($config);
 $message = new Messages($db);
 $users = new Users($db);
 $utils = new Utils();
+$rooms = new Rooms($db);
 
 switch ($_REQUEST['action']) {
 	case "sendMessage":
 		$user_id = $users->getUserByUsername($_SESSION['username'])->id;
 
-		if ($message->sendMessage($user_id, $utils->sanitize($_REQUEST['message']))) {
+		if ($message->sendMessage(
+			$user_id,
+			$utils->sanitize($_REQUEST['message']),
+			$_REQUEST['room']
+		)) {
 			echo json_encode(["response" => true]);
 		}
 		break;
 
 	case "getMessages":
-		$rs = $message->getMessages();
+		$rs = $message->getMessages($_REQUEST['room']);
 
 		$chat = [];
 
@@ -41,8 +47,20 @@ switch ($_REQUEST['action']) {
 		break;
 
 	case "getOnlineUsers":
-		$users = $users->getOnline();
+		$users = $users->getOnline($_REQUEST['room']);
 
 		echo json_encode($users);
+		break;
+
+	case "addRoom":
+		if ($rooms->createRoom($_REQUEST['room_name'])) {
+			echo json_encode(['response' => true]);
+		}
+		break;
+
+	case "changeRoomName":
+		if ($rooms->updateRoom($_REQUEST['id'], $_REQUEST['room_name'])) {
+			echo json_encode(['response' => true]);
+		}
 		break;
 }

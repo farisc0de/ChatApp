@@ -6,16 +6,21 @@ LoadMessages();
 LoadUsers();
 
 function LoadMessages() {
-  $.get("api/handler.php", { action: "getMessages" }, function (response) {
-    var scrollpos = parseInt($("#chat").scrollTop()) + 520;
-    var scrollHeight = $("#chat").prop("scrollHeight");
+  var room_id = $("#room_id").val();
 
-    chat = JSON.parse(response);
+  $.get(
+    "api/handler.php",
+    { action: "getMessages", room: room_id },
+    function (response) {
+      var scrollpos = parseInt($("#chat").scrollTop()) + 520;
+      var scrollHeight = $("#chat").prop("scrollHeight");
 
-    messages = "";
+      chat = JSON.parse(response);
 
-    chat.forEach((message) => {
-      messages += `<div class="single-message ${message["align"]}">
+      messages = "";
+
+      chat.forEach((message) => {
+        messages += `<div class="single-message ${message["align"]}">
 						<strong>${message["username"]}: </strong>
             <br />
             <p>${message["message"]}</p>
@@ -23,29 +28,36 @@ function LoadMessages() {
 						<span>${message["time"]}</span>
 						</div>
 						<div class="clear"></div>`;
-    });
+      });
 
-    $("#chat").html(messages);
+      $("#chat").html(messages);
 
-    if (scrollpos < scrollHeight) {
-    } else {
-      $("#chat").scrollTop($("#chat").prop("scrollHeight"));
+      if (scrollpos < scrollHeight) {
+      } else {
+        $("#chat").scrollTop($("#chat").prop("scrollHeight"));
+      }
     }
-  });
+  );
 }
 
 function LoadUsers() {
-  $.get("api/handler.php", { action: "getOnlineUsers" }, function (response) {
-    users = JSON.parse(response);
+  var room_id = $("#room_id").val();
 
-    online_users = "";
+  $.get(
+    "api/handler.php",
+    { action: "getOnlineUsers", room: room_id },
+    function (response) {
+      users = JSON.parse(response);
 
-    users.forEach((online) => {
-      online_users += `<ul class="list-unstyled"><li>${online["username"]}</li></ul>`;
-    });
+      online_users = "";
 
-    $("#online").html(online_users);
-  });
+      users.forEach((online) => {
+        online_users += `<ul class="list-unstyled"><li>${online["username"]}</li></ul>`;
+      });
+
+      $("#online").html(online_users);
+    }
+  );
 }
 
 $("#message").keyup(function (e) {
@@ -56,10 +68,11 @@ $("#message").keyup(function (e) {
 
 $("form").submit(function () {
   var message = $("#message").val();
+  var room_id = $("#room_id").val();
 
   $.post(
     "api/handler.php",
-    { action: "sendMessage", message: message },
+    { action: "sendMessage", message: message, room: room_id },
     function (response) {
       if (JSON.parse(response)["response"] == true) {
         LoadMessages();

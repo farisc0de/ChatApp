@@ -6,15 +6,18 @@ include_once 'src/Database.php';
 include_once 'src/Users.php';
 include_once 'src/Auth.php';
 include_once 'src/Utils.php';
+include_once 'src/Rooms.php';
 
 $utils = new Utils();
 $db = new Database($config);
 $auth = new Auth($db);
 $user = new Users($db);
+$rooms = new Rooms($db);
 
 /** Lock out time used for brute force protection */
 
 $lockout_time = 10;
+$room = $rooms->getRooms();
 
 /** Check if user is already log in */
 
@@ -33,8 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $username;
+    $_SESSION['room_id'] = ($_POST["room"] == "0") ? "1" : $_POST['room'];
 
-    $user->setOnline($username);
+    $user->setOnline($username, $_SESSION['room_id']);
 
     $utils->redirect("index.php");
   } elseif ($loginstatus == 401) {
@@ -103,6 +107,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                 <div class="col-md-6">
                   <input type="password" id="password" class="form-control" name="password" required />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="password" class="col-md-4 col-form-label text-md-right">Room</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="room">
+                    <option value="0">Select a Room</option>
+                    <?php foreach ($room as $r) : ?>
+                      <option value="<?php echo $r->id; ?>"><?php echo $r->room_name; ?></option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
               </div>
 

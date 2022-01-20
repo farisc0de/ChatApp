@@ -22,7 +22,7 @@ class Users
 
     public function getUserByUsername($username)
     {
-        $this->db->query("SELECT id, username FROM users WHERE username = :username");
+        $this->db->query("SELECT id, username, is_admin FROM users WHERE username = :username");
 
         $this->db->bind(":username", $username, PDO::PARAM_STR);
 
@@ -63,21 +63,25 @@ class Users
         return $this->db->execute();
     }
 
-    public function getOnline()
+    public function getOnline($room_id)
     {
-        $this->db->query("SELECT username FROM users WHERE is_online=:s");
+        $this->db->query("SELECT username FROM users WHERE is_online=:s AND current_room = :room");
 
         $this->db->bind(":s", true, PDO::PARAM_BOOL);
+        $this->db->bind(":room", $room_id, PDO::PARAM_INT);
 
         $this->db->execute();
 
         return $this->db->resultset();
     }
 
-    public function setOnline($username)
+    public function setOnline($username, $room_number)
     {
-        $this->db->query("UPDATE users SET is_online = 1 WHERE username = :username");
+        $this->db->query(
+            "UPDATE users SET is_online = 1, current_room=:r WHERE username = :username"
+        );
 
+        $this->db->bind(":r", $room_number, PDO::PARAM_STR);
         $this->db->bind(":username", $username, PDO::PARAM_STR);
 
         $this->db->execute();
@@ -85,7 +89,9 @@ class Users
 
     public function setOffline($username)
     {
-        $this->db->query("UPDATE users SET is_online = 0 WHERE username = :username");
+        $this->db->query(
+            "UPDATE users SET is_online = 0, current_room = 0 WHERE username = :username"
+        );
 
         $this->db->bind(":username", $username, PDO::PARAM_STR);
 

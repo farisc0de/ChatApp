@@ -22,6 +22,11 @@
 
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ml-auto">
+				<?php if ($_SESSION['is_admin']) : ?>
+					<li class="nav-item">
+						<a class="nav-link" href="rooms.php">Manage Rooms</a>
+					</li>
+				<?php endif; ?>
 				<li class="nav-item">
 					<a class="nav-link" href="logout.php">Logout</a>
 				</li>
@@ -29,10 +34,12 @@
 		</div>
 	</nav>
 
+	<input id="room_id" value="<?php echo $_SESSION['room_id']; ?>" hidden />
+
 	<div class="container pt-4">
 		<div class="row justify-content-center">
 			<div class="col-lg-10 col-md-12 col-sm-12">
-				<div id="online" class="ml-2"></div>
+				<div id="online" class="ml-2 hide_online"></div>
 
 				<div id="chat"></div>
 
