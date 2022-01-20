@@ -9,6 +9,8 @@ $utils = new Utils();
 $db = new Database($config);
 $user = new Users($db);
 
+ini_set("display_errors", 1);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $utils->sanitize($_POST['username']);
     $email = $utils->sanitize($_POST['email']);
@@ -19,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'username' => $username,
             'email' => $email,
             'password' => password_hash($password, PASSWORD_BCRYPT),
+            'is_admin' => 0
         ]);
 
         $msg = "Account created";

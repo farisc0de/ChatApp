@@ -15,6 +15,9 @@ CREATE TABLE `rooms` (
   `room_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `rooms` (`id`, `room_name`) VALUES
+(1, 'General');
+
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -22,13 +25,14 @@ CREATE TABLE `users` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `is_online` tinyint(1) NOT NULL DEFAULT '0',
   `is_admin` tinyint(1) NOT NULL,
-  `current_room` int NOT NULL,
+  `current_room` int NOT NULL DEFAULT '0',
   `failed_login` int NOT NULL DEFAULT '0',
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `is_online`, `is_admin`, `current_room`, `failed_login`, `last_login`) VALUES
-(1, 'admin', '$2y$10$Nq9Vvf9MxOIVRJvHHz/KvOt4X/BOmz.5s4rizTEnPYWAD7sphcAFK', 'admin@localhost.com', 0, 1, 0, 0, '2022-01-20 15:29:52');
+(1, 'admin', '$2y$10$Nq9Vvf9MxOIVRJvHHz/KvOt4X/BOmz.5s4rizTEnPYWAD7sphcAFK', 'admin@localhost.com', 0, 1, 0, 0, '2022-01-20 17:21:49');
 
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),

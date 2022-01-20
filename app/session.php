@@ -19,10 +19,7 @@ if (isset($_SESSION)) {
     if ($username != null) {
         if (isset($_SESSION['loggedin'])) {
             $data = $user->getUserByUsername($username);
-
-            if ($data->is_admin) {
-                $_SESSION["is_admin"] = true;
-            }
+            $_SESSION["is_admin"] = $data->is_admin;
         }
     }
 
