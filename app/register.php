@@ -9,8 +9,6 @@ $utils = new Utils();
 $db = new Database($config);
 $user = new Users($db);
 
-ini_set("display_errors", 1);
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $utils->sanitize($_POST['username']);
     $email = $utils->sanitize($_POST['email']);
