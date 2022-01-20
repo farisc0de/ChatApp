@@ -6,3 +6,8 @@ $config = [
     'DB_PASS' => '',
     'DB_NAME' => ''
 ];
+
+$keys = [
+    "IV" => '',
+    "SECRET_KEY" => ''
+];

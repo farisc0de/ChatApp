@@ -7,6 +7,9 @@ include_once '../src/Messages.php';
 include_once '../src/Users.php';
 include_once '../src/Utils.php';
 include_once '../src/Rooms.php';
+include_once '../vendor/autoload.php';
+
+use phpseclib3\Crypt\AES;
 
 $db = new Database($config);
 $message = new Messages($db);
@@ -14,13 +17,18 @@ $users = new Users($db);
 $utils = new Utils();
 $rooms = new Rooms($db);
 
+$cipher = new AES('cbc');
+$cipher->setKeyLength(256);
+$cipher->setIV($keys['IV']);
+$cipher->setKey($keys['SECRET_KEY']);
+
 switch ($_REQUEST['action']) {
 	case "sendMessage":
 		$user_id = $users->getUserByUsername($_SESSION['username'])->id;
 
 		if ($message->sendMessage(
 			$user_id,
-			$utils->sanitize($_REQUEST['message']),
+			base64_encode($cipher->encrypt($utils->sanitize($_REQUEST['message']))),
 			$_REQUEST['room']
 		)) {
 			echo json_encode(["response" => true]);
@@ -32,15 +40,17 @@ switch ($_REQUEST['action']) {
 
 		$chat = [];
 
-		foreach ($rs as $message) {
-			$username = $users->getUser($message->user)->username;
+		if (is_array($rs)) {
+			foreach ($rs as $message) {
+				$username = $users->getUser($message->user)->username;
 
-			array_push($chat, [
-				"align" => ($_SESSION['username'] == $username) ? 'right' : 'left',
-				"username" => $username,
-				"message" => $message->message,
-				"time" => date('h:i a', strtotime($message->date))
-			]);
+				array_push($chat, [
+					"align" => ($_SESSION['username'] == $username) ? 'right' : 'left',
+					"username" => $username,
+					"message" => $cipher->decrypt(base64_decode($message->message)),
+					"time" => date('h:i a', strtotime($message->date))
+				]);
+			}
 		}
 
 		echo json_encode($chat);
