@@ -12,5 +12,4 @@ $key = [
     "SECRET_KEY" => ""
 ];
 
-
 $settings = ["theme_name" => "superhero"];
