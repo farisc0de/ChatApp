@@ -7,7 +7,10 @@ $config = [
     'DB_NAME' => ''
 ];
 
-$keys = [
-    "IV" => '',
-    "SECRET_KEY" => ''
+$key = [
+    "IV" => "",
+    "SECRET_KEY" => ""
 ];
+
+
+$settings = ["theme_name" => "superhero"];

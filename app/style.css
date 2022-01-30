@@ -27,6 +27,8 @@ textarea {
   padding: 5px 10px 5px 10px;
   border: 1px solid #b3b3b3;
   border-radius: 5px;
+  background-color: var(--white);
+  color: var(--gray);
 }
 
 .single-message p {
@@ -45,8 +47,8 @@ textarea {
 
 .right {
   float: right;
-  background: #007bff;
-  color: #fff;
+  background: var(--primary);
+  color: var(--white);
 }
 
 .clear {

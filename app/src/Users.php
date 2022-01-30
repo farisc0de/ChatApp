@@ -65,7 +65,7 @@ class Users
 
     public function getOnline($room_id)
     {
-        $this->db->query("SELECT username FROM users WHERE is_online=:s AND current_room = :room");
+        $this->db->query("SELECT username, is_admin FROM users WHERE is_online=:s AND current_room = :room");
 
         $this->db->bind(":s", true, PDO::PARAM_BOOL);
         $this->db->bind(":room", $room_id, PDO::PARAM_INT);

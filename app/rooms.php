@@ -1,16 +1,5 @@
 <?php
 include_once "session.php";
-include_once "src/Rooms.php";
-
-$rooms = new Rooms($db);
-
-if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if (isset($_GET['delete'])) {
-        $rooms->deleteRoom($_GET['delete']);
-    }
-}
-
-$room = $rooms->getRooms();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,10 +8,8 @@ $room = $rooms->getRooms();
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Chat App - Manage Rooms</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>Ghostly - Manage Rooms</title>
+    <?php include_once 'style.php'; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -30,7 +17,7 @@ $room = $rooms->getRooms();
 <body>
     <nav class="navbar navbar-light bg-light navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.php">Chat App</a>
+            <a class="navbar-brand" href="index.php">Ghostly</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -62,16 +49,7 @@ $room = $rooms->getRooms();
                                     <th scope="col">Settings</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php foreach ($room as $r) : ?>
-                                    <tr>
-                                        <th scope="row"><?php echo $r->id ?></th>
-                                        <td><?php echo $r->room_name ?></td>
-                                        <td><a href="" onclick="edit('<?php echo $r->id; ?>')"><span class="fas fa-edit"></span></a> <a href="rooms.php?delete=<?php echo $r->id; ?>"><span class="fas fa-trash"></span></a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
+                            <tbody id="rooms"></tbody>
                         </table>
                     </div>
                     <div class="card-footer">
@@ -87,12 +65,36 @@ $room = $rooms->getRooms();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
 
     <script>
+        function getRooms() {
+            $.get(
+                "api/handler.php", {
+                    action: "getRooms",
+                },
+                function(response) {
+                    res = JSON.parse(response);
+
+                    room = "";
+
+                    res.forEach((rooms) => {
+                        room += `<tr>
+      <th scope="row">${rooms['id']}</th>
+      <td>${rooms['room_name']}</td>
+      <td>
+        <a href="" onclick="edit('${rooms['id']}')"><span class="fas fa-edit"></span></a>
+        <a href="" onclick="deleteR('${rooms['id']}')"><span class="fas fa-trash"></span></a>
+      </td>
+    </tr>`;
+                    });
+
+                    console.log(room);
+
+                    $("#rooms").html(room);
+                }
+            );
+        }
+
         function edit(room_id) {
             let newName = prompt("Please enter room new name");
-
-            if (newName === null) {
-                return; //break out of the function early
-            }
 
             if (newName != null) {
                 $.post(
@@ -113,10 +115,6 @@ $room = $rooms->getRooms();
         function add() {
             let roomName = prompt("Please enter new room name");
 
-            if (roomName === null) {
-                return; //break out of the function early
-            }
-
             if (roomName != null) {
                 $.post(
                     "api/handler.php", {
@@ -130,7 +128,25 @@ $room = $rooms->getRooms();
                     }
                 );
             }
+
+            return;
         }
+
+        function deleteR(r_id) {
+            $.post(
+                "api/handler.php", {
+                    action: "deleteRoom",
+                    room_id: r_id,
+                },
+                function(response) {
+                    if (JSON.parse(response)["response"] == true) {
+                        location.reload();
+                    }
+                }
+            );
+        }
+
+        window.onload = getRooms();
     </script>
 </body>
 

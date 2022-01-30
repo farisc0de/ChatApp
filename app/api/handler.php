@@ -19,8 +19,8 @@ $rooms = new Rooms($db);
 
 $cipher = new AES('cbc');
 $cipher->setKeyLength(256);
-$cipher->setIV($keys['IV']);
-$cipher->setKey($keys['SECRET_KEY']);
+$cipher->setIV($key['IV']);
+$cipher->setKey($key['SECRET_KEY']);
 
 switch ($_REQUEST['action']) {
 	case "sendMessage":
@@ -62,6 +62,10 @@ switch ($_REQUEST['action']) {
 		echo json_encode($users);
 		break;
 
+	case "getRooms":
+		echo json_encode($rooms->getRooms());
+		break;
+
 	case "addRoom":
 		if ($rooms->createRoom($_REQUEST['room_name'])) {
 			echo json_encode(['response' => true]);
@@ -70,6 +74,12 @@ switch ($_REQUEST['action']) {
 
 	case "changeRoomName":
 		if ($rooms->updateRoom($_REQUEST['id'], $_REQUEST['room_name'])) {
+			echo json_encode(['response' => true]);
+		}
+		break;
+
+	case "deleteRoom":
+		if ($rooms->deleteRoom($_REQUEST['room_id'])) {
 			echo json_encode(['response' => true]);
 		}
 		break;

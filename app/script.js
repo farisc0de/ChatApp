@@ -52,7 +52,13 @@ function LoadUsers() {
       online_users = "";
 
       users.forEach((online) => {
-        online_users += `<ul class="list-unstyled"><li>${online["username"]}</li></ul>`;
+        code_color = "";
+
+        if (online["is_admin"] == 1) {
+          code_color = "text-danger";
+        }
+
+        online_users += `<ul class="list-unstyled"><li class="${code_color}">${online["username"]}</li></ul>`;
       });
 
       $("#online").html(online_users);
