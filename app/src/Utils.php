@@ -94,7 +94,7 @@ class Utils
     public function random_str($length = 64)
     {
         $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%^&*()';
-
+        $keyspace = str_shuffle($keyspace);
         $pieces = [];
         $max = mb_strlen($keyspace, '8bit') - 1;
 
