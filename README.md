@@ -18,9 +18,9 @@ Simple PHP Chat System
 
 ## How to install
 
-1. Import chat.sql
-2. Run `$ composer update `
-3. Update config.php [Keys are **128bit** for IV and **256bit** for the key]
+1. Run `$ composer update `
+2. Update config.php
+3. Run install.php
 4. Enjoy
 
 ## Default Credentials
