@@ -13,11 +13,12 @@ class Utils
      */
     public function sanitize($value)
     {
-        $data = trim($value);
-        $data = htmlspecialchars($data, ENT_QUOTES, "UTF-8");
-        $data = filter_var($data, FILTER_SANITIZE_STRING);
-        $data = strip_tags($data);
-        return $data;
+        if (!is_null($value)) {
+            $data = trim($value);
+            $data = htmlspecialchars($data, ENT_QUOTES, "UTF-8");
+            $data = strip_tags($data);
+            return $data;
+        }
     }
 
     /**
@@ -91,11 +92,19 @@ class Utils
         exit;
     }
 
+    /**
+     * Generate a secure key
+     * 
+     * @param int $length 
+     * @return string 
+     */
     public function random_str($length = 64)
     {
-        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%^&*()-+_=/?<>~';
+        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%^&*()-+_=/?';
         $keyspace = str_shuffle($keyspace);
+
         $pieces = [];
+
         $max = mb_strlen($keyspace, '8bit') - 1;
 
         for ($i = 0; $i < $length; ++$i) {
