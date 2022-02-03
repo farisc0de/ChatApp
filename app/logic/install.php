@@ -174,4 +174,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     file_put_contents($conf_file, $conf_file_content);
 
     /* -------------------------- */
+
+    $error = 1;
 }
