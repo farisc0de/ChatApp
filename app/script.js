@@ -53,12 +53,19 @@ function LoadUsers() {
 
       users.forEach((online) => {
         code_color = "";
+        crown = "";
 
         if (online["is_admin"] == 1) {
           code_color = "text-danger";
+          crown = "👑";
         }
 
-        online_users += `<ul class="list-unstyled"><li class="${code_color}">${online["username"]}</li></ul>`;
+        online_users += `
+        <ul class="list-unstyled">
+            <li class="${code_color}">
+              ${crown} ${online["username"]}
+            </li>
+        </ul>`;
       });
 
       $("#online").html(online_users);

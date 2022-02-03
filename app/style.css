@@ -9,6 +9,7 @@ textarea {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   padding: 10px;
+  width: 82%;
 }
 
 #online {
@@ -18,7 +19,7 @@ textarea {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   padding: 10px;
-  width: 100px;
+  width: 17%;
 }
 
 .single-message {
@@ -56,8 +57,23 @@ textarea {
 }
 
 @media screen and (max-width: 600px) {
-  .hide_online {
+  #online {
     visibility: hidden;
     display: none;
+  }
+
+  #chat {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 801px) {
+  #online {
+    visibility: hidden;
+    display: none;
+  }
+
+  #chat {
+    width: 100%;
   }
 }

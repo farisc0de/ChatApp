@@ -8,8 +8,8 @@ $config = [
 ];
 
 $key = [
-    "IV" => "",
-    "SECRET_KEY" => ""
+    "IV" => "iv",
+    "SECRET_KEY" => "s_key"
 ];
 
 $settings = ["theme_name" => "superhero"];
