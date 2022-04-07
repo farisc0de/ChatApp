@@ -111,6 +111,12 @@ $messages = [
     ],
 
     [
+        'encryption_key',
+        $install->types->String(125),
+        $install->options->NotNull()
+    ],
+
+    [
         'room_id',
         $install->types->Integer(),
         $install->options->UnSigned(),
@@ -162,14 +168,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     /* -------------------------- */
 
     $iv = $utils->random_str(16);
-    $key = $utils->random_str(32);
 
     $conf_file = "config.php";
 
     $conf_file_content = file_get_contents($conf_file);
 
-    $conf_file_content = preg_replace("/iv/", $iv, $conf_file_content, 1);
-    $conf_file_content = preg_replace("/s_key/", $key, $conf_file_content, 1);
+    $conf_file_content = preg_replace("/iv_key/", $iv, $conf_file_content, 1);
 
     file_put_contents($conf_file, $conf_file_content);
 

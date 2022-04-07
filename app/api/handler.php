@@ -20,15 +20,19 @@ $rooms = new Rooms($db);
 $cipher = new AES('cbc');
 $cipher->setKeyLength(256);
 $cipher->setIV($key['IV']);
-$cipher->setKey($key['SECRET_KEY']);
 
 switch ($_REQUEST['action']) {
 	case "sendMessage":
 		$user_id = $users->getUserByUsername($_SESSION['username'])->id;
 
+		$key = $utils->random_str(32);
+
+		$cipher->setKey($key);
+
 		if ($message->sendMessage(
 			$user_id,
 			base64_encode($cipher->encrypt($utils->sanitize($_REQUEST['message']))),
+			base64_encode($key),
 			$_REQUEST['room']
 		)) {
 			echo json_encode(["response" => true]);
@@ -43,6 +47,8 @@ switch ($_REQUEST['action']) {
 		if (is_array($rs)) {
 			foreach ($rs as $message) {
 				$username = $users->getUser($message->user)->username;
+
+				$cipher->setKey(base64_decode($message->encryption_key));
 
 				array_push($chat, [
 					"align" => ($_SESSION['username'] == $username) ? 'right' : 'left',
