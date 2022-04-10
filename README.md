@@ -28,6 +28,12 @@ Simple PHP Chat System
 1. Username: admin
 2. Password: admin
 
+## Future Work
+
+```
+Add private chat room with disposable messages
+```
+
 ## License
 
 MIT
