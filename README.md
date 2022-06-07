@@ -11,6 +11,7 @@ Simple PHP Chat System
 5. Rooms
 6. Encryption
 7. Themes
+8. Private Chat
 
 ## Screenshot
 
@@ -27,12 +28,6 @@ Simple PHP Chat System
 
 1. Username: admin
 2. Password: admin
-
-## Future Work
-
-```
-Add private chat room with disposable messages
-```
 
 ## License
 
