@@ -3,12 +3,12 @@ session_start();
 
 include_once 'config.php';
 include_once 'src/Database.php';
-include_once 'src/Users.php';
-include_once 'src/Utils.php';
+include_once 'src/User.php';
+include_once 'src/Utility.php';
 
-$utils = new Utils();
+$utils = new Utility();
 $db = new Database($config);
-$user = new Users($db);
+$user = new User($db);
 
 $user->setOffline($_SESSION['username']);
 

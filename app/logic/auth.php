@@ -2,21 +2,21 @@
 
 include_once 'config.php';
 include_once 'src/Database.php';
-include_once 'src/Users.php';
+include_once 'src/User.php';
 include_once 'src/Auth.php';
-include_once 'src/Utils.php';
-include_once 'src/Rooms.php';
+include_once 'src/Utility.php';
+include_once 'src/Room.php';
 
-$utils = new Utils();
+$utils = new Utility();
 $db = new Database($config);
 $auth = new Auth($db);
-$user = new Users($db);
-$rooms = new Rooms($db);
+$user = new User($db);
+$rooms = new Room($db);
 
 /** Lock out time used for brute force protection */
 
 $lockout_time = 10;
-$room = $rooms->getRooms();
+$room = $rooms->getAll();
 
 /** Check if user is already log in */
 

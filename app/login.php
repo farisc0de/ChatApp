@@ -27,21 +27,21 @@ include_once 'logic/auth.php';
               <?php echo $utils->alert($error, "danger", "times-circle"); ?>
             <?php endif; ?>
             <form action="" method="POST">
-              <div class="form-group row">
+              <div class="mb-2 row">
                 <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
                 <div class="col-md-6">
                   <input type="text" id="username" class="form-control" name="username" required autofocus />
                 </div>
               </div>
 
-              <div class="form-group row">
+              <div class="mb-2 row">
                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                 <div class="col-md-6">
                   <input type="password" id="password" class="form-control" name="password" required />
                 </div>
               </div>
 
-              <div class="form-group row">
+              <div class="mb-2 row">
                 <label for="password" class="col-md-4 col-form-label text-md-right">Room</label>
                 <div class="col-md-6">
                   <select class="form-control" name="room">

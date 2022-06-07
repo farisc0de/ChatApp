@@ -52,18 +52,20 @@ function LoadUsers() {
       online_users = "";
 
       users.forEach((online) => {
-        code_color = "";
+        code_color = "link-light";
         crown = "";
 
         if (online["is_admin"] == 1) {
-          code_color = "text-danger";
+          code_color = "link-danger";
           crown = "👑";
         }
 
         online_users += `
         <ul class="list-unstyled">
-            <li class="${code_color}">
-              ${crown} ${online["username"]}
+            <li>
+              <a href="private.php?user=${online["id"]}" class="${code_color}">
+                ${crown} ${online["username"]}
+              </a>
             </li>
         </ul>`;
       });

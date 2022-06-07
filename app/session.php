@@ -2,13 +2,16 @@
 session_start();
 include_once 'config.php';
 include_once 'src/Database.php';
-include_once 'src/Users.php';
+include_once 'src/User.php';
 include_once 'src/Auth.php';
-include_once 'src/Utils.php';
+include_once 'src/Utility.php';
 
-$utils = new Utils();
+ini_set("display_errors", 1);
+error_reporting(E_ALL);
+
+$utils = new Utility();
 $db = new Database($config);
-$user = new Users($db);
+$user = new User($db);
 $auth = new Auth($db);
 
 $current_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -18,7 +21,7 @@ if (isset($_SESSION)) {
 
     if ($username != null) {
         if (isset($_SESSION['loggedin'])) {
-            $data = $user->getUserByUsername($username);
+            $data = $user->getByUsername($username);
             $_SESSION["is_admin"] = $data->is_admin;
         }
     }

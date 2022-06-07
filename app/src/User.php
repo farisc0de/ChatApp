@@ -1,6 +1,6 @@
 <?php
 
-class Users
+class User
 {
     private $db;
 
@@ -9,7 +9,7 @@ class Users
         $this->db = $db;
     }
 
-    public function getUser($id)
+    public function get($id)
     {
         $this->db->query("SELECT username FROM users WHERE id = :id");
 
@@ -20,7 +20,7 @@ class Users
         return $this->db->single();
     }
 
-    public function getUserByUsername($username)
+    public function getByUsername($username)
     {
         $this->db->query("SELECT id, username, is_admin FROM users WHERE username = :username");
 
@@ -31,7 +31,7 @@ class Users
         return $this->db->single();
     }
 
-    public function checkUser($username)
+    public function check($username)
     {
         $this->db->query("SELECT * FROM users WHERE username = :username;");
 
@@ -46,7 +46,7 @@ class Users
         }
     }
 
-    public function createUser($user_array)
+    public function create($user_array)
     {
         $sql = sprintf(
             "INSERT INTO users (%s) VALUES (%s)",
@@ -65,7 +65,7 @@ class Users
 
     public function getOnline($room_id)
     {
-        $this->db->query("SELECT username, is_admin FROM users WHERE is_online=:s AND current_room = :room");
+        $this->db->query("SELECT id, username, is_admin FROM users WHERE is_online=:s AND current_room = :room");
 
         $this->db->bind(":s", true, PDO::PARAM_BOOL);
         $this->db->bind(":room", $room_id, PDO::PARAM_INT);

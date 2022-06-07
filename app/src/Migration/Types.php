@@ -2,32 +2,32 @@
 
 class Types
 {
-    public function String($length)
+    public static function String($length)
     {
         return "varchar({$length})";
     }
 
-    public function Integer()
+    public static function Integer()
     {
         return "int";
     }
 
-    public function Boolean()
+    public static function Boolean()
     {
         return "tinyint(1)";
     }
 
-    public function Text()
+    public static function Text()
     {
         return "longtext";
     }
 
-    public function DateTime()
+    public static function DateTime()
     {
         return "datetime";
     }
 
-    public function TimeStamp()
+    public static function TimeStamp()
     {
         return "timestamp";
     }

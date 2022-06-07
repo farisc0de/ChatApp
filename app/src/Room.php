@@ -1,6 +1,6 @@
 <?php
 
-class Rooms
+class Room
 {
     private Database $db;
 
@@ -9,7 +9,7 @@ class Rooms
         $this->db = $db;
     }
 
-    public function getRooms()
+    public function getAll()
     {
         $this->db->query("SELECT * FROM rooms");
 
@@ -18,7 +18,7 @@ class Rooms
         return $this->db->resultset();
     }
 
-    public function createRoom($room_name)
+    public function create($room_name)
     {
         $this->db->query("INSERT INTO rooms SET room_name = :name");
 
@@ -27,7 +27,7 @@ class Rooms
         return $this->db->execute();
     }
 
-    public function updateRoom($room_id, $new_name)
+    public function update($room_id, $new_name)
     {
         $this->db->query("UPDATE rooms SET room_name = :new_name WHERE id = :id");
 
@@ -37,7 +37,7 @@ class Rooms
         return $this->db->execute();
     }
 
-    public function deleteRoom($room_id)
+    public function delete($room_id)
     {
         $this->db->query("DELETE FROM rooms WHERE id = :room_id");
 

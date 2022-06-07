@@ -9,21 +9,11 @@ class Migration
      */
     private $db;
     /**
-     * Utils Connection
+     * Utility Injection
      *
-     * @var Utils
+     * @var Utility
      */
     private $utils;
-    /**
-     * 
-     * @var Types
-     */
-    public $types;
-    /**
-     * 
-     * @var Options
-     */
-    public $options;
 
     /**
      * Update class constructor
@@ -31,7 +21,7 @@ class Migration
      * @param object $database
      *  An object from the Database class
      * @param object $utils
-     *  An object from the Utils class
+     *  An object from the Utility class
      * @return void
      */
     public function __construct($database, $utils)
@@ -39,10 +29,6 @@ class Migration
         $this->db = $database;
 
         $this->utils = $utils;
-
-        $this->types = new Types;
-
-        $this->options = new Options;
     }
 
     /**

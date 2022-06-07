@@ -12,6 +12,16 @@ textarea {
   width: 82%;
 }
 
+#chat_private {
+  min-height: 500px;
+  height: 500px;
+  overflow: auto;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 10px;
+  width: 100%;
+}
+
 #online {
   min-height: 500px;
   height: 500px;
@@ -28,8 +38,8 @@ textarea {
   padding: 5px 10px 5px 10px;
   border: 1px solid #b3b3b3;
   border-radius: 5px;
-  background-color: var(--white);
-  color: var(--gray);
+  background-color: var(--bs-white);
+  color: var(--bs-gray);
 }
 
 .single-message p {
@@ -48,8 +58,8 @@ textarea {
 
 .right {
   float: right;
-  background: var(--primary);
-  color: var(--white);
+  background: var(--bs-primary);
+  color: var(--bs-white);
 }
 
 .clear {

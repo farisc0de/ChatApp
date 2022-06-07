@@ -2,52 +2,52 @@
 
 class Options
 {
-    public function NotNull()
+    public static function NotNull()
     {
         return "NOT NULL";
     }
 
-    public function Null()
+    public static function Null()
     {
         return "NULL";
     }
 
-    public function CurrentTimeStamp()
+    public static function CurrentTimeStamp()
     {
         return "DEFAULT CURRENT_TIMESTAMP";
     }
 
-    public function DefaultValue($value)
+    public static function DefaultValue($value)
     {
         return "DEFAULT {$value}";
     }
 
-    public function UnSigned()
+    public static function UnSigned()
     {
         return "UNSIGNED";
     }
 
-    public function AutoIncrement()
+    public static function AutoIncrement()
     {
         return "AUTO_INCREMENT";
     }
 
-    public function Unique($column)
+    public static function Unique($column)
     {
         return "UNIQUE({$column})";
     }
 
-    public function Index($column)
+    public static function Index($column)
     {
         return "INDEX({$column})";
     }
 
-    public function PrimaryKey($key)
+    public static function PrimaryKey($key)
     {
         return "PRIMARY KEY ({$key})";
     }
 
-    public function ForeignKey($foreign_key, $references)
+    public static function ForeignKey($foreign_key, $references)
     {
         $ref = implode("", array_keys($references));
         $key = implode("", array_values($references));

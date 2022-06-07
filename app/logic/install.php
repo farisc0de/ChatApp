@@ -1,145 +1,159 @@
 <?php
 
+ini_set("display_errors", 1);
+error_reporting(E_ALL);
+
 include_once 'config.php';
 include_once 'src/Database.php';
-include_once 'src/Utils.php';
+include_once 'src/Utility.php';
 include_once 'src/Migration/Types.php';
 include_once 'src/Migration/Options.php';
 include_once 'src/Migration/Migration.php';
 
 $db = new Database($config);
-$utils = new Utils;
+$utils = new Utility;
 $install = new Migration($db, $utils);
 
 $users =
     [
         [
             'id',
-            $install->types->Integer(),
-            $install->options->UnSigned(),
-            $install->options->NotNull(),
-            $install->options->AutoIncrement()
+            Types::Integer(),
+            Options::UnSigned(),
+            Options::NotNull(),
+            Options::AutoIncrement()
         ],
         [
             'username',
-            $install->types->String(25),
-            $install->options->NotNull()
+            Types::String(25),
+            Options::NotNull()
         ],
         [
             'password',
-            $install->types->String(255),
-            $install->options->NotNull()
+            Types::String(255),
+            Options::NotNull()
         ],
         [
             'email',
-            $install->types->String(255),
-            $install->options->NotNull()
+            Types::String(255),
+            Options::NotNull()
         ],
         [
             'is_online',
-            $install->types->Boolean(),
-            $install->options->NotNull(),
-            $install->options->DefaultValue(0)
+            Types::Boolean(),
+            Options::NotNull(),
+            Options::DefaultValue(0)
         ],
         [
             'is_admin',
-            $install->types->Boolean(),
-            $install->options->NotNull(),
-            $install->options->DefaultValue(0)
+            Types::Boolean(),
+            Options::NotNull(),
+            Options::DefaultValue(0)
         ],
         [
             'current_room',
-            $install->types->Integer(),
-            $install->options->NotNull(),
-            $install->options->DefaultValue(0)
+            Types::Integer(),
+            Options::NotNull(),
+            Options::DefaultValue(0)
         ],
         [
             'failed_login',
-            $install->types->Integer(),
-            $install->options->NotNull(),
-            $install->options->DefaultValue(0)
+            Types::Integer(),
+            Options::NotNull(),
+            Options::DefaultValue(0)
         ],
         [
             'last_login',
-            $install->types->TimeStamp(),
-            $install->options->NotNull(),
-            $install->options->CurrentTimeStamp()
+            Types::TimeStamp(),
+            Options::NotNull(),
+            Options::CurrentTimeStamp()
         ],
 
         [
-            $install->options->PrimaryKey('id')
+            Options::PrimaryKey('id')
         ]
     ];
 
 $rooms = [
     [
         'id',
-        $install->types->Integer(),
-        $install->options->UnSigned(),
-        $install->options->NotNull(),
-        $install->options->AutoIncrement()
+        Types::Integer(),
+        Options::UnSigned(),
+        Options::NotNull(),
+        Options::AutoIncrement()
     ],
     [
         'room_name',
-        $install->types->String(255),
-        $install->options->NotNull()
+        Types::String(255),
+        Options::NotNull()
     ],
     [
-        $install->options->PrimaryKey('id'),
+        Options::PrimaryKey('id'),
     ],
 ];
 
 $messages = [
     [
         'id',
-        $install->types->Integer(),
-        $install->options->UnSigned(),
-        $install->options->NotNull(),
-        $install->options->AutoIncrement()
+        Types::Integer(),
+        Options::UnSigned(),
+        Options::NotNull(),
+        Options::AutoIncrement()
     ],
 
     [
         'user',
-        $install->types->Integer(),
-        $install->options->NotNull()
+        Types::Integer(),
+        Options::NotNull()
     ],
 
     [
         'message',
-        $install->types->Text(),
-        $install->options->NotNull()
+        Types::Text(),
+        Options::NotNull()
     ],
 
     [
         'encryption_key',
-        $install->types->String(125),
-        $install->options->NotNull()
+        Types::String(125),
+        Options::NotNull()
     ],
 
     [
         'room_id',
-        $install->types->Integer(),
-        $install->options->UnSigned(),
-        $install->options->NotNull(),
-        $install->options->DefaultValue(1)
+        Types::Integer(),
+        Options::UnSigned(),
+        Options::NotNull(),
+        Options::DefaultValue(1)
+    ],
+
+    [
+        'reciver_id',
+        Types::Integer(),
+        Options::UnSigned(),
+        Options::NotNull(),
+        Options::DefaultValue(0)
     ],
 
     [
         'date',
-        $install->types->TimeStamp(),
-        $install->options->NotNull()
+        Types::TimeStamp(),
+        Options::NotNull()
     ],
     [
-        $install->options->PrimaryKey('id'),
+        Options::PrimaryKey('id'),
     ],
     [
-        $install->options->Index('room_id'),
+        Options::Index('room_id'),
     ],
     [
-        $install->options->Index('user'),
+        Options::Index('user'),
     ],
     [
-        $install->options->ForeignKey("room_id", [
+        Options::Index('reciver_id'),
+    ],
+    [
+        Options::ForeignKey("room_id", [
             'rooms' => 'id'
         ])
     ]
